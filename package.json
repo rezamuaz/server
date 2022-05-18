@@ -1,0 +1,37 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r esm .",
+    "dev": "nodemon -r esm"
+  },
+  "author": "aschenberg",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-core": "^3.6.7",
+    "apollo-server-express": "^3.6.3",
+    "bcryptjs": "^2.4.3",
+    "consola": "^2.15.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.3",
+    "googleapis": "^100.0.0",
+    "graphql": "^15.8.0",
+    "graphql-rate-limit": "^3.3.0",
+    "graphql-tools": "^8.2.0",
+    "graphql-upload": "^13.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.2",
+    "mongoose-paginate-v2": "^1.6.3",
+    "nodemailer": "^6.7.2",
+    "nodemon": "^2.0.15",
+    "yup": "^0.32.11"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@middlewares": "./src/middlewares"
+  }
+}
