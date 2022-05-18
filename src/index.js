@@ -71,6 +71,8 @@ const server = new ApolloServer({
 });
 // Function to start express and apollo server
 const startApp = async () => {
+  const host = "0.0.0.0";
+  const port = process.env.PORT || 5000;
   try {
     // Connect With MongoDB Database
     mongoose.connect(DB, {
@@ -88,7 +90,7 @@ const startApp = async () => {
       app,
     });
     // Start Listening on the Server
-    app.listen(PORT, () =>
+    app.listen(port, host, () =>
       success({
         badge: true,
         message: `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`,
