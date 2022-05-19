@@ -26,9 +26,11 @@ export const isAuthor = (user) => {
 
 export const isAdminOrAuthor = (user) => {
   if (
-    user.role === "ADMIN" ||
-    user.role === "AUTHOR" ||
-    user.role === "SUPERADMIN"
+    !(
+      user.role === "ADMIN" ||
+      user.role === "AUTHOR" ||
+      user.role === "SUPERADMIN"
+    )
   ) {
     throw new ApolloError("You need to be ADMIN or AUTHOR");
   }

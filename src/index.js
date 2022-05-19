@@ -4,7 +4,7 @@ import { join } from "path";
 import { ApolloServer } from "apollo-server-express";
 // const  schemaDirectives = require ('./graphql/schema/directives');
 import { error, success } from "consola";
-import { DB, PORT, IN_PROD } from "./config";
+import { DB, HOST, PORT } from "./config";
 import * as AppModels from "./models";
 import typeDefs from "./graphql/typeDefs";
 import resolvers from "./graphql/resolvers";
@@ -21,16 +21,16 @@ const { graphqlUploadExpress } = require("graphql-upload");
 const app = express();
 // Remove x-powered-by header
 app.disable("x-powered-by");
-var whitelist = ["http://localhost:3000"];
-var corsOptionsDelegate = function (req, callback) {
-  var corsOptions;
-  if (whitelist.indexOf(req.header("Origin")) !== -1) {
-    corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
-  } else {
-    corsOptions = { origin: false }; // disable CORS for this request
-  }
-  callback(null, corsOptions); // callback expects two parameters: error and options
-};
+// var whitelist = ["http://localhost:3000"];
+// var corsOptionsDelegate = function (req, callback) {
+//   var corsOptions;
+//   if (whitelist.indexOf(req.header("Origin")) !== -1) {
+//     corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
+//   } else {
+//     corsOptions = { origin: false }; // disable CORS for this request
+//   }
+//   callback(null, corsOptions); // callback expects two parameters: error and options
+// };
 app.use(cors());
 app.use(express.static(join(__dirname, "./uploads")));
 app.use(graphqlUploadExpress());
@@ -58,7 +58,6 @@ const server = new ApolloServer({
         })
       : ApolloServerPluginLandingPageLocalDefault(),
   ],
-  playground: !IN_PROD,
   context: ({ req }) => {
     let { user, isAuth } = req;
     return {
@@ -71,8 +70,6 @@ const server = new ApolloServer({
 });
 // Function to start express and apollo server
 const startApp = async () => {
-  const host = "0.0.0.0";
-  const port = process.env.PORT || 5000;
   try {
     // Connect With MongoDB Database
     mongoose.connect(DB, {
@@ -81,7 +78,7 @@ const startApp = async () => {
     });
     success({
       badge: true,
-      message: `Successfully connected with the database ${DB}`,
+      message: `Successfully connected with the database`,
     });
     await server.start();
     // Apply Apollo-Express-Server Middlware to express application
@@ -90,7 +87,8 @@ const startApp = async () => {
       app,
     });
     // Start Listening on the Server
-    app.listen(port, host, () =>
+
+    app.listen(PORT || 5000, HOST || "127.0.0.1", () =>
       success({
         badge: true,
         message: `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`,
@@ -106,5 +104,3 @@ const startApp = async () => {
 
 // Invoke Start Application Function
 startApp();
-
-// DB=mongodb://127.0.0.1:27017/server

@@ -1,20 +1,27 @@
-import { ApolloError } from "apollo-server-core";
+import {
+  EMAIL_PASSWORD,
+  EMAIL_PORT,
+  EMAIL_SERVICE,
+  EMAIL_USER,
+  FRONTEND_HOST,
+  WEBNAME,
+} from "../../config";
 
 const nodemailer = require("nodemailer");
 export default async function sendEmailReset(email, resetToken) {
   try {
     let transporter = nodemailer.createTransport({
-      host: process.env.SERVICE,
-      port: process.env.MAILPORT,
+      host: EMAIL_SERVICE,
+      port: EMAIL_PORT,
       secure: false,
       auth: {
-        user: process.env.USER,
-        pass: process.env.MAILPW,
+        user: EMAIL_USER,
+        pass: EMAIL_PASSWORD,
       },
     });
 
     const emailData = {
-      from: process.env.USER,
+      from: EMAIL_USER,
       to: `${email}`,
       subject: "Reset Token",
       html: `<!doctype html>
@@ -134,7 +141,7 @@ export default async function sendEmailReset(email, resetToken) {
                           <tr>
                             <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;" valign="top">
                               <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">Hello,</p>
-                              <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">Seems like you forgot your password for ${process.env.WEBNAME}. If this is true, click below to reset your password</p>
+                              <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">Seems like you forgot your password for ${WEBNAME}. If this is true, click below to reset your password</p>
                               <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; box-sizing: border-box; width: 100%;" width="100%">
                                 <tbody>
                                   <tr>
@@ -142,7 +149,7 @@ export default async function sendEmailReset(email, resetToken) {
                                       <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
                                         <tbody>
                                           <tr>
-                                            <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; border-radius: 5px; text-align: center; background-color: #3498db;" valign="top" align="center" bgcolor="#3498db"> <a href="${process.env.FRONTEND}/reset?q=${resetToken}" target="_blank" style="border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none; text-transform: capitalize; background-color: #3498db; border-color: #3498db; color: #ffffff;">Reset My Password</a> </td>
+                                            <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; border-radius: 5px; text-align: center; background-color: #3498db;" valign="top" align="center" bgcolor="#3498db"> <a href="${FRONTEND_HOST}/reset?q=${resetToken}" target="_blank" style="border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none; text-transform: capitalize; background-color: #3498db; border-color: #3498db; color: #ffffff;">Reset My Password</a> </td>
                                           </tr>
                                         </tbody>
                                       </table>

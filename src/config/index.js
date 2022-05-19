@@ -3,10 +3,18 @@ import { config } from "dotenv";
 const { parsed } = config();
 
 export const {
-  DB,
   PORT,
-  PROD,
+  DBPROD,
+  DBDEV,
+  NODE_ENV,
   SECRET,
-  IN_PROD = PROD === "prod",
-  BASE_URL = `127.0.0.1:${PORT}`,
+  HOST,
+  EMAIL_SERVICE,
+  EMAIL_DOMAIN,
+  EMAIL_USER,
+  EMAIL_PASSWORD,
+  EMAIL_PORT,
+  WEBNAME,
+  FRONTEND_HOST,
 } = parsed;
+export const DB = NODE_ENV === "production" ? DBPROD : DBDEV;
